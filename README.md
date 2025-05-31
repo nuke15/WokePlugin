@@ -7,3 +7,4 @@ Sets/clears the player's pronoun prefix.
 Note: Planning to enforce "subject/object" format.
 ### /nickname <set [nickname] / clear>
 Sets/clears the player's nickname.
+Alias: /nick

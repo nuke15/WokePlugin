@@ -1,0 +1,14 @@
+name: WokePlugin
+description: Adds user-defined nicknames and pronouns. Overrides default chat renderer.
+version: 1.0-SNAPSHOT
+main: net.maxmushroom.wokeplugin.WokePlugin
+api-version: '1.21.4'
+
+commands:
+   pronouns:
+      description: Set your pronouns.
+      usage: "Usage: /pronouns <set [pronouns] / clear>"
+   nickname:
+      description: Set your nickname.
+      usage: "Usage: /nickname <set [nickname] / clear>"
+      aliases: [nick]

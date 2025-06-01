@@ -22,7 +22,7 @@ public class WokePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PronounsListener(pronouns), this);
 
         // register commands
-        this.getCommand("nickname").setExecutor(new NicknameCommands(nicknames));
+        this.getCommand("nickname").setExecutor(new NicknameCommands(nicknames, pronouns));
         this.getCommand("pronouns").setExecutor(new PronounsCommands(pronouns));
 
         // update nicks and pronouns for any online players

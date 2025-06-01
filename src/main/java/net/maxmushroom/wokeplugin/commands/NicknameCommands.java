@@ -10,12 +10,15 @@ import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
 import net.maxmushroom.wokeplugin.nicknames.NicknameManager;
+import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
 
 public class NicknameCommands implements CommandExecutor, TabCompleter {
     private final NicknameManager nicknames;
+    private final PronounsManager pronouns;
 
-    public NicknameCommands(NicknameManager nicknames) {
+    public NicknameCommands(NicknameManager nicknames, PronounsManager pronouns) {
         this.nicknames = nicknames;
+        this.pronouns = pronouns;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class NicknameCommands implements CommandExecutor, TabCompleter {
                         return true;
                     } else {
                         nicknames.setNickname(player.getUniqueId(), args[1]);
+                        pronouns.updateTabList(player.getUniqueId());
                         player.sendMessage(Component.text("Your nickname has been set to: " + args[1]));
                         return true;
                     }

@@ -6,13 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class PronounsManager {
     private final Map<UUID, String> playerPronouns;
+    // TODO: colors
     private final WokePlugin plugin;
 
     private final File file;
@@ -41,13 +45,35 @@ public class PronounsManager {
     public String getPronouns(UUID uniqueId) {
         return playerPronouns.get(uniqueId);
     }
-    
+
+    public Component getPronounsPrefix(UUID uuid) {
+        // instantiate output component
+        Component pronounsPrefix = Component.empty();
+
+        // check hashmap for player's pronouns
+        String sourcePronouns = getPronouns(uuid);
+        if (sourcePronouns != null) {
+            // if found, append pronoun component to output
+            pronounsPrefix = Component.text("[" + sourcePronouns + "] ");
+        }
+
+        return pronounsPrefix.color(NamedTextColor.GRAY);
+    }
+
     public void setPronouns(UUID uniqueId, String pronouns) {
         if (pronouns == null || pronouns.trim().isEmpty()) {
             playerPronouns.remove(uniqueId);
         } else {
             playerPronouns.put(uniqueId, pronouns);
         }
+    }
+
+    // update the given player's display name in the tab list with pronouns and nick
+    public void updateTabList(UUID uuid) {
+        Bukkit.getPlayer(uuid).playerListName(
+                getPronounsPrefix(uuid)
+                        .append(Bukkit.getPlayer(uuid).displayName()
+                                .colorIfAbsent(NamedTextColor.WHITE)));
     }
 
     public void loadPronouns() {
@@ -64,7 +90,8 @@ public class PronounsManager {
                         UUID uuid = UUID.fromString(uuidString);
                         playerPronouns.put(uuid, pronounsValue);
                     } catch (IllegalArgumentException e) {
-                        plugin.getLogger().warning("Skipping invalid UUID format in pronouns.yml: '" + uuidString + "'");
+                        plugin.getLogger()
+                                .warning("Skipping invalid UUID format in pronouns.yml: '" + uuidString + "'");
                     }
                 }
             }
@@ -91,4 +118,5 @@ public class PronounsManager {
             plugin.getLogger().severe("Could not save pronouns to pronouns.yml: " + e.getMessage());
         }
     }
+
 }

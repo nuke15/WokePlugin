@@ -1,12 +1,35 @@
 # WokePlugin
-Paper plugin that adds user-definable nicknames and pronouns. Overrides default chat renderer, so definitely incompatible with other plugins.
+
+Paper plugin that adds user-definable nicknames and pronouns.
+
+Overrides the default chat renderer, which will likely break other plugins.
+
+## Features
+
+- Pronouns and nicknames are displayed in chat and in the tab list.
+- Hovering over a nicknamed player's chat message will show their actual username.
 
 ## Commands
-### /pronouns <set [pronouns] / clear>
-Sets/clears the player's pronoun prefix.
 
-Note: Planning to enforce "subject/object" format.
-### /nickname <set [nickname] / clear>
-Sets/clears the player's nickname. Alias: /nick
+### Pronouns
 
-Note: Currently not persistent.
+`/pronouns set <pronouns>`
+
+- Set your pronouns.
+- `<pronouns>` must be supplied in a "subject/object" format, with the exception of "any".
+
+`/pronouns clear`
+
+- Clear your pronouns.
+
+### Nicknames
+
+`/nickname set <nickname>`
+
+- Set your nickname.
+
+- `<nickname>` may not contain spaces.
+
+`/nickname clear`
+
+- Clear your nickname.

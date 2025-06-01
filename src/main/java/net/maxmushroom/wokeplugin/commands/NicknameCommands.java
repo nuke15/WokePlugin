@@ -9,8 +9,15 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
+import net.maxmushroom.wokeplugin.nicknames.NicknameManager;
 
 public class NicknameCommands implements CommandExecutor, TabCompleter {
+    private final NicknameManager nicknames;
+
+    public NicknameCommands(NicknameManager nicknames) {
+        this.nicknames = nicknames;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // check if the sender is a player
@@ -21,15 +28,19 @@ public class NicknameCommands implements CommandExecutor, TabCompleter {
             } else {
                 // check if the first command argument is one of our subcommands
                 if (args[0].equalsIgnoreCase("set")) {
-                    if (args.length < 2 || args.length > 2) {
-                        return false;
+                    if (args.length < 2) {
+                        player.sendMessage(Component.text("Usage: /nickname set <nickname>"));
+                        return true;
+                    } else if (args.length > 2) {
+                        player.sendMessage(Component.text("Nicknames cannot contain spaces."));
+                        return true;
                     } else {
-                        player.displayName(Component.text(args[1]));
+                        nicknames.setNickname(player.getUniqueId(), args[1]);
                         player.sendMessage(Component.text("Your nickname has been set to: " + args[1]));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("clear")) {
-                    player.displayName(null);
+                    nicknames.setNickname(player.getUniqueId(), null);
                     player.sendMessage(Component.text("Your nickname has been cleared."));
                     return true;
                 } else {

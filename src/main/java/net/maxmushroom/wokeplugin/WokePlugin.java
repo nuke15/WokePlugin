@@ -21,7 +21,6 @@ public class WokePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new NicknameListener(nicknames), this);
         getServer().getPluginManager().registerEvents(new PronounsListener(pronouns), this);
 
-
         // register commands
         this.getCommand("nickname").setExecutor(new NicknameCommands(nicknames));
         this.getCommand("pronouns").setExecutor(new PronounsCommands(pronouns));

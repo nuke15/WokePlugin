@@ -13,6 +13,7 @@ import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class PronounsManager {
     private final Map<UUID, String> playerPronouns;
+    // TODO: colors
     private final WokePlugin plugin;
 
     private final File file;

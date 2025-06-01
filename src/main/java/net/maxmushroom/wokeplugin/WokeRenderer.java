@@ -1,4 +1,4 @@
-package net.maxmushroom.wokeplugin.pronouns;
+package net.maxmushroom.wokeplugin;
 
 import org.bukkit.entity.Player;
 
@@ -6,12 +6,13 @@ import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
 
-public class PronounsRenderer implements ChatRenderer {
+public class WokeRenderer implements ChatRenderer {
     private final PronounsManager pronouns;
 
     // constructor
-    public PronounsRenderer(PronounsManager pronouns) {
+    public WokeRenderer(PronounsManager pronouns) {
         this.pronouns = pronouns;
     }
 

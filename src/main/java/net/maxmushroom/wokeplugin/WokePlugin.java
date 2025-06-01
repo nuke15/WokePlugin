@@ -1,5 +1,7 @@
 package net.maxmushroom.wokeplugin;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maxmushroom.wokeplugin.commands.NicknameCommands;
@@ -16,12 +18,19 @@ public class WokePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // register event listeners
-        getServer().getPluginManager().registerEvents(new PronounsListener(pronouns), this);
         getServer().getPluginManager().registerEvents(new NicknameListener(nicknames), this);
+        getServer().getPluginManager().registerEvents(new PronounsListener(pronouns), this);
+
 
         // register commands
-        this.getCommand("pronouns").setExecutor(new PronounsCommands(pronouns));
         this.getCommand("nickname").setExecutor(new NicknameCommands(nicknames));
+        this.getCommand("pronouns").setExecutor(new PronounsCommands(pronouns));
+
+        // update nicks and pronouns for any online players
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            nicknames.updateNickname(player.getUniqueId());
+            pronouns.updateTabList(player.getUniqueId());
+        }
     }
 
     @Override

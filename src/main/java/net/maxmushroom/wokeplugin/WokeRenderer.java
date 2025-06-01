@@ -18,21 +18,11 @@ public class WokeRenderer implements ChatRenderer {
 
     @Override
     public Component render(Player source, Component sourceDisplayName, Component message, Audience viewer) {
-        // instantiate output component
-        Component pronounsPrefix = Component.empty();
-
-        // check hashmap for player's pronouns
-        String sourcePronouns = pronouns.getPronouns(source.getUniqueId());
-        if (sourcePronouns != null) {
-            // if found, append pronoun component to output
-            pronounsPrefix = Component.text("[" + sourcePronouns + "] ");
-        }
-
         // append display name using default <name> format
         Component displayName = Component.text("<")
                 .append(sourceDisplayName)
                 .append(Component.text("> "));
 
-        return pronounsPrefix.color(NamedTextColor.GRAY).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
+        return pronouns.getPronounsPrefix(source.getUniqueId()).color(NamedTextColor.GRAY).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
     }
 }

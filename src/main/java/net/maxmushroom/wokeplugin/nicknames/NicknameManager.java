@@ -9,9 +9,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class NicknameManager {
@@ -41,10 +40,6 @@ public class NicknameManager {
         this.config = YamlConfiguration.loadConfiguration(this.file);
 
         loadNicknames();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            updateNickname(player.getUniqueId());
-        }
     }
 
     public void updateNickname(UUID uuid) {
@@ -52,17 +47,18 @@ public class NicknameManager {
         String nickname = playerNicknames.get(uuid);
         // build component
         if (nickname != null) {
-            Component nicknameComponent = Component.text(nickname);
+            Component nicknameComponent = Component.text(nickname)
+                    .hoverEvent(HoverEvent.showText(Component.text(Bukkit.getPlayer(uuid).getName())));
             Bukkit.getPlayer(uuid).displayName(nicknameComponent);
         } else {
             Bukkit.getPlayer(uuid).displayName();
         }
     }
-    
+
     public void setNickname(UUID uuid, String nickname) {
         if (nickname == null || nickname.trim().isEmpty()) {
             playerNicknames.remove(uuid);
-            
+
         } else {
             playerNicknames.put(uuid, nickname);
         }
@@ -83,7 +79,8 @@ public class NicknameManager {
                         UUID uuid = UUID.fromString(uuidString);
                         playerNicknames.put(uuid, pronounsValue);
                     } catch (IllegalArgumentException e) {
-                        plugin.getLogger().warning("Skipping invalid UUID format in nicknames.yml: '" + uuidString + "'");
+                        plugin.getLogger()
+                                .warning("Skipping invalid UUID format in nicknames.yml: '" + uuidString + "'");
                     }
                 }
             }
@@ -105,9 +102,9 @@ public class NicknameManager {
         // save config
         try {
             config.save(file);
-            plugin.getLogger().info("Saved " + playerNicknames.size() + " pronoun entries to nicknames.yml.");
+            plugin.getLogger().info("Saved " + playerNicknames.size() + " nickname entries to nicknames.yml.");
         } catch (IOException e) { // Catch specific IOException
-            plugin.getLogger().severe("Could not save pronouns to nicknames.yml: " + e.getMessage());
+            plugin.getLogger().severe("Could not save nicknames to nicknames.yml: " + e.getMessage());
         }
     }
 

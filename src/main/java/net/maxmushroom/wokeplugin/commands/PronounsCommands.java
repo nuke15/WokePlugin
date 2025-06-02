@@ -9,15 +9,15 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
-import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
+import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class PronounsCommands implements CommandExecutor, TabCompleter {
-    private final PronounsManager pronouns;
+    private final WokePlugin plugin;
 
     private final int MAX_PRONOUN_LENGTH = 8;
 
-    public PronounsCommands(PronounsManager pronouns) {
-        this.pronouns = pronouns;
+    public PronounsCommands(WokePlugin wokePlugin) {
+        this.plugin = wokePlugin;
     }
 
     @Override
@@ -36,7 +36,8 @@ public class PronounsCommands implements CommandExecutor, TabCompleter {
                     } else {
                         String formatted = args[1].toLowerCase();
                         if ((formatted.matches("[a-z]+/[a-z]+") && formatted.length() < (MAX_PRONOUN_LENGTH * 2 + 1)) || formatted.equals("any")) {
-                            pronouns.setPronouns(player.getUniqueId(), formatted);
+                            plugin.pronouns.setPronouns(player.getUniqueId(), formatted);
+                            plugin.pronouns.updateTabList(player.getUniqueId());
                             player.sendMessage(Component.text("Your pronouns have been set to: " + formatted));
                             return true;
                         } else {
@@ -49,7 +50,8 @@ public class PronounsCommands implements CommandExecutor, TabCompleter {
                         player.sendMessage(Component.text("Usage: /pronouns clear"));
                         return true;
                     } else {
-                        pronouns.setPronouns(player.getUniqueId(), null);
+                        plugin.pronouns.setPronouns(player.getUniqueId(), null);
+                        plugin.pronouns.updateTabList(player.getUniqueId());
                         player.sendMessage(Component.text("Your pronouns have been cleared."));
                         return true;
                     }

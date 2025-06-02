@@ -6,24 +6,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maxmushroom.wokeplugin.commands.NicknameCommands;
 import net.maxmushroom.wokeplugin.commands.PronounsCommands;
-import net.maxmushroom.wokeplugin.nicknames.NicknameListener;
-import net.maxmushroom.wokeplugin.nicknames.NicknameManager;
-import net.maxmushroom.wokeplugin.pronouns.PronounsListener;
-import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
+import net.maxmushroom.wokeplugin.data.DataManager;
+import net.maxmushroom.wokeplugin.nicknames.Nicknames;
+import net.maxmushroom.wokeplugin.pronouns.Pronouns;
 
 public class WokePlugin extends JavaPlugin {
-    private final PronounsManager pronouns = new PronounsManager(this);
-    private final NicknameManager nicknames = new NicknameManager(this);
+    public final DataManager dataManager = new DataManager(this);
+    public final Pronouns pronouns = new Pronouns(this);
+    public final Nicknames nicknames = new Nicknames(this);
 
     @Override
     public void onEnable() {
         // register event listeners
-        getServer().getPluginManager().registerEvents(new NicknameListener(nicknames), this);
-        getServer().getPluginManager().registerEvents(new PronounsListener(pronouns), this);
+        getServer().getPluginManager().registerEvents(new WokeListener(this), this);
 
         // register commands
-        this.getCommand("nickname").setExecutor(new NicknameCommands(nicknames, pronouns));
-        this.getCommand("pronouns").setExecutor(new PronounsCommands(pronouns));
+        this.getCommand("nickname").setExecutor(new NicknameCommands(this));
+        this.getCommand("pronouns").setExecutor(new PronounsCommands(this));
 
         // update nicks and pronouns for any online players
         for (Player player : Bukkit.getOnlinePlayers()) {

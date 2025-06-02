@@ -9,16 +9,13 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
-import net.maxmushroom.wokeplugin.nicknames.NicknameManager;
-import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
+import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class NicknameCommands implements CommandExecutor, TabCompleter {
-    private final NicknameManager nicknames;
-    private final PronounsManager pronouns;
+    private final WokePlugin plugin;
 
-    public NicknameCommands(NicknameManager nicknames, PronounsManager pronouns) {
-        this.nicknames = nicknames;
-        this.pronouns = pronouns;
+    public NicknameCommands(WokePlugin wokePlugin) {
+        this.plugin = wokePlugin;
     }
 
     @Override
@@ -38,13 +35,13 @@ public class NicknameCommands implements CommandExecutor, TabCompleter {
                         player.sendMessage(Component.text("Nicknames cannot contain spaces."));
                         return true;
                     } else {
-                        nicknames.setNickname(player.getUniqueId(), args[1]);
-                        pronouns.updateTabList(player.getUniqueId());
+                        plugin.nicknames.setNickname(player.getUniqueId(), args[1]);
+                        plugin.pronouns.updateTabList(player.getUniqueId());
                         player.sendMessage(Component.text("Your nickname has been set to: " + args[1]));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("clear")) {
-                    nicknames.setNickname(player.getUniqueId(), null);
+                    plugin.nicknames.setNickname(player.getUniqueId(), null);
                     player.sendMessage(Component.text("Your nickname has been cleared."));
                     return true;
                 } else {

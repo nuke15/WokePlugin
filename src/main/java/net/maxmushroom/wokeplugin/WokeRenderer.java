@@ -6,23 +6,22 @@ import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.maxmushroom.wokeplugin.pronouns.PronounsManager;
 
 public class WokeRenderer implements ChatRenderer {
-    private final PronounsManager pronouns;
+    private final WokePlugin plugin;
 
     // constructor
-    public WokeRenderer(PronounsManager pronouns) {
-        this.pronouns = pronouns;
+    public WokeRenderer(WokePlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public Component render(Player source, Component sourceDisplayName, Component message, Audience viewer) {
         // append display name using default <name> format
         Component displayName = Component.text("<")
-                .append(sourceDisplayName)
+                .append(plugin.nicknames.getNickname(source.getUniqueId()))
                 .append(Component.text("> "));
 
-        return pronouns.getPronounsPrefix(source.getUniqueId()).color(NamedTextColor.GRAY).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
+        return plugin.pronouns.getPronounsPrefix(source.getUniqueId()).color(NamedTextColor.GRAY).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
     }
 }

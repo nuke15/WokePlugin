@@ -9,6 +9,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class PronounsCommands implements CommandExecutor, TabCompleter {
@@ -31,28 +32,28 @@ public class PronounsCommands implements CommandExecutor, TabCompleter {
                 // check if the first command argument is one of our subcommands
                 if (args[0].equalsIgnoreCase("set")) {
                     if (args.length < 2 || args.length > 2) {
-                        player.sendMessage(Component.text("Usage: /pronouns set <pronouns>"));
+                        player.sendMessage(Component.text("Usage: /pronouns set <pronouns>").color(NamedTextColor.RED));
                         return true;
                     } else {
                         String formatted = args[1].toLowerCase();
                         if ((formatted.matches("[a-z]+/[a-z]+") && formatted.length() < (MAX_PRONOUN_LENGTH * 2 + 1)) || formatted.equals("any")) {
                             plugin.pronouns.setPronouns(player.getUniqueId(), formatted);
                             plugin.pronouns.updateTabList(player.getUniqueId());
-                            player.sendMessage(Component.text("Your pronouns have been set to: " + formatted));
+                            player.sendMessage(Component.text("Your pronouns have been set to: " + formatted).color(NamedTextColor.GREEN));
                             return true;
                         } else {
-                            player.sendMessage(Component.text("Pronouns must follow the format <subject/object>, with the exception of \"any.\""));
+                            player.sendMessage(Component.text("Pronouns must follow the format <subject/object>, with the exception of \"any.\"").color(NamedTextColor.RED));
                             return true;
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("clear")) {
                     if (args.length > 1) {
-                        player.sendMessage(Component.text("Usage: /pronouns clear"));
+                        player.sendMessage(Component.text("Usage: /pronouns clear").color(NamedTextColor.RED));
                         return true;
                     } else {
                         plugin.pronouns.setPronouns(player.getUniqueId(), null);
                         plugin.pronouns.updateTabList(player.getUniqueId());
-                        player.sendMessage(Component.text("Your pronouns have been cleared."));
+                        player.sendMessage(Component.text("Your pronouns have been cleared.").color(NamedTextColor.GREEN));
                         return true;
                     }
                 } else {

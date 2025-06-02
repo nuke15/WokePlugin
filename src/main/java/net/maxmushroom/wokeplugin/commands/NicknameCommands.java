@@ -9,6 +9,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class NicknameCommands implements CommandExecutor, TabCompleter {
@@ -29,20 +30,20 @@ public class NicknameCommands implements CommandExecutor, TabCompleter {
                 // check if the first command argument is one of our subcommands
                 if (args[0].equalsIgnoreCase("set")) {
                     if (args.length < 2) {
-                        player.sendMessage(Component.text("Usage: /nickname set <nickname>"));
+                        player.sendMessage(Component.text("Usage: /nickname set <nickname>").color(NamedTextColor.RED));
                         return true;
                     } else if (args.length > 2) {
-                        player.sendMessage(Component.text("Nicknames cannot contain spaces."));
+                        player.sendMessage(Component.text("Nicknames cannot contain spaces.").color(NamedTextColor.RED));
                         return true;
                     } else {
                         plugin.nicknames.setNickname(player.getUniqueId(), args[1]);
                         plugin.pronouns.updateTabList(player.getUniqueId());
-                        player.sendMessage(Component.text("Your nickname has been set to: " + args[1]));
+                        player.sendMessage(Component.text("Your nickname has been set to: " + args[1]).color(NamedTextColor.GREEN));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("clear")) {
                     plugin.nicknames.setNickname(player.getUniqueId(), null);
-                    player.sendMessage(Component.text("Your nickname has been cleared."));
+                    player.sendMessage(Component.text("Your nickname has been cleared.").color(NamedTextColor.GREEN));
                     return true;
                 } else {
                     return false;

@@ -7,8 +7,8 @@ api-version: '1.21.4'
 commands:
    pronouns:
       description: Manage your pronouns.
-      usage: "Usage: /pronouns <set|clear>"
+      usage: "§cUsage: /pronouns <set | clear>"
    nickname:
       description: Manage your nickname.
-      usage: "Usage: /nickname <set|clear>"
+      usage: "§cUsage: /nickname <set | clear>"
       aliases: [nick]

@@ -52,7 +52,7 @@ public class Pronouns {
     public void updateTabList(UUID uuid) {
         Bukkit.getPlayer(uuid).playerListName(
                 getPronounsPrefix(uuid)
-                        .append(Bukkit.getPlayer(uuid).displayName()
+                        .append(plugin.nicknames.getNickname(uuid)
                                 .colorIfAbsent(NamedTextColor.WHITE)));
     }
 

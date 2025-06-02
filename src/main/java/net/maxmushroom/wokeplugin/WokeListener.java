@@ -22,6 +22,5 @@ public class WokeListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         plugin.pronouns.updateTabList(event.getPlayer().getUniqueId());
-        plugin.nicknames.updateNickname(event.getPlayer().getUniqueId());
     }
 }

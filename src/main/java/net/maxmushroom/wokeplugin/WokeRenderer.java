@@ -22,6 +22,6 @@ public class WokeRenderer implements ChatRenderer {
                 .append(plugin.nicknames.getNickname(source.getUniqueId()))
                 .append(Component.text("> "));
 
-        return plugin.pronouns.getPronounsPrefix(source.getUniqueId()).color(NamedTextColor.GRAY).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
+        return plugin.pronouns.getPronounsPrefix(source.getUniqueId()).append((displayName).append(message).colorIfAbsent(NamedTextColor.WHITE));
     }
 }

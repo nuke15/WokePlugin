@@ -21,23 +21,11 @@ public class Nicknames {
         loadNicknames();
     }
 
-    public void updateNickname(UUID uuid) {
-        // get nickname from hashmap
-        String nickname = playerNicknames.get(uuid);
-        // build component
-        if (nickname != null) {
-            Component nicknameComponent = Component.text(nickname)
-                    .hoverEvent(HoverEvent.showText(Component.text(Bukkit.getPlayer(uuid).getName())));
-            Bukkit.getPlayer(uuid).displayName(nicknameComponent);
-        } else {
-            Bukkit.getPlayer(uuid).displayName();
-        }
-    }
-
     public Component getNickname(UUID uuid) {
         String nickname = playerNicknames.get(uuid);
         if (nickname != null) {
-            return Component.text(nickname);
+            return Component.text(nickname)
+                    .hoverEvent(HoverEvent.showText(Component.text(Bukkit.getPlayer(uuid).getName())));
         } else {
             return Component.text(Bukkit.getPlayer(uuid).getName());
         }
@@ -46,11 +34,9 @@ public class Nicknames {
     public void setNickname(UUID uuid, String nickname) {
         if (nickname == null || nickname.trim().isEmpty()) {
             playerNicknames.remove(uuid);
-
         } else {
             playerNicknames.put(uuid, nickname);
         }
-        updateNickname(uuid);
     }
 
     public void loadNicknames() {

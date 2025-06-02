@@ -26,7 +26,6 @@ public class WokePlugin extends JavaPlugin {
 
         // update nicks and pronouns for any online players
         for (Player player : Bukkit.getOnlinePlayers()) {
-            nicknames.updateNickname(player.getUniqueId());
             pronouns.updateTabList(player.getUniqueId());
         }
     }

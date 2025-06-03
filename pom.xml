@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.maxmushroom</groupId>
-    <artifactId>wokeplugin</artifactId>
-    <version>0.1</version>
+    <artifactId>WokePlugin</artifactId>
+    <version>0.1.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

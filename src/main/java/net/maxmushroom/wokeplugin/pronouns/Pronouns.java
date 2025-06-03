@@ -8,16 +8,18 @@ import org.bukkit.Bukkit;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.maxmushroom.wokeplugin.WokePlugin;
 
 public class Pronouns {
     private final Map<UUID, String> playerPronouns;
-    // TODO: colors
+    private final Map<UUID, String> pronounColors;
     private final WokePlugin plugin;
 
     public Pronouns(WokePlugin plugin) {
         this.plugin = plugin;
         this.playerPronouns = new ConcurrentHashMap<>();
+        this.pronounColors = new ConcurrentHashMap<>();
 
         loadPronouns();
     }
@@ -37,7 +39,16 @@ public class Pronouns {
             pronounsPrefix = Component.text("[" + sourcePronouns + "] ");
         }
 
-        return pronounsPrefix.color(NamedTextColor.GRAY);
+        return pronounsPrefix.color(getPronounColor(uuid));
+    }
+
+    public TextColor getPronounColor(UUID uuid) {
+        String color = pronounColors.get(uuid);
+        if (color != null) {
+            return TextColor.fromHexString(color);
+        } else {
+            return NamedTextColor.GRAY;
+        }
     }
 
     public void setPronouns(UUID uniqueId, String pronouns) {
@@ -45,6 +56,14 @@ public class Pronouns {
             playerPronouns.remove(uniqueId);
         } else {
             playerPronouns.put(uniqueId, pronouns);
+        }
+    }
+    
+    public void setPronounColor(UUID uuid, String color) {
+        if (color == null || color.trim().isEmpty()) {
+            pronounColors.remove(uuid);
+        } else {
+            pronounColors.put(uuid, color);
         }
     }
 
@@ -61,16 +80,24 @@ public class Pronouns {
         playerPronouns.clear();
 
         // get new hashmap from data manager
-        Map<UUID, String> newNicknames = plugin.dataManager.loadSection("player-pronouns");
+        Map<UUID, String> newPronouns = plugin.dataManager.loadSection("player-pronouns");
 
         // load new hashmap into this.hashmap
-        for (Map.Entry<UUID, String> entry : newNicknames.entrySet()) {
+        newPronouns.entrySet().forEach(entry -> {
             playerPronouns.put(entry.getKey(), entry.getValue());
-        }
+        });
+
+        pronounColors.clear();
+        Map<UUID, String> newColors = plugin.dataManager.loadSection("player-pronoun-colors");
+        newColors.entrySet().forEach(entry -> {
+            pronounColors.put(entry.getKey(), entry.getValue());
+        });
+
     }
 
     public void savePronouns() {
         plugin.dataManager.saveSection(playerPronouns, "player-pronouns");
+        plugin.dataManager.saveSection(pronounColors, "player-pronoun-colors");
     }
 
 }

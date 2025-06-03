@@ -33,3 +33,14 @@ Overrides the default chat renderer, which will likely break other plugins.
 `/nickname clear`
 
 - Clear your nickname.
+
+`/nickname` is aliased to `/nick` for convenience.
+
+### Colors
+
+`/pronouns color <color name|#hex color|reset>`
+
+`/nickname color <color name|#hex color|reset>`
+
+- Sets/clears the color of your pronouns/nickname.
+- Accepts either a named color (of which there are only a few) or a hex color (preceded by a `#`).

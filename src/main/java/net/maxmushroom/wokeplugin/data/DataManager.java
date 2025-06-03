@@ -18,7 +18,7 @@ public class DataManager {
 
     public DataManager(WokePlugin plugin) {
         this.plugin = plugin;
-        
+
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdirs();
         }
@@ -53,7 +53,8 @@ public class DataManager {
                     }
                 }
             }
-            plugin.getLogger().info("Loaded " + output.size() + " entries from  " + sectionName + " in player-data.yml.");
+            plugin.getLogger()
+                    .info("Loaded " + output.size() + " entries from " + sectionName + " in player-data.yml.");
         } else {
             plugin.getLogger().info("No entries from " + sectionName + " were loaded.");
         }
@@ -73,7 +74,7 @@ public class DataManager {
         // save config
         try {
             config.save(file);
-            plugin.getLogger().info("Saved " + map.size() + " entries to  " + section + " in player-data.yml.");
+            plugin.getLogger().info("Saved " + map.size() + " entries to " + section + " in player-data.yml.");
         } catch (IOException e) { // Catch specific IOException
             plugin.getLogger().severe("Could not save to player-data.yml: " + e.getMessage());
         }
